@@ -42,7 +42,7 @@ namespace simple_threading_discovery
             RunGrounds();
 
         }
-
+        
         static void RunGrounds()
         {
             var simpleForeground = new ThreadSamp(20);
