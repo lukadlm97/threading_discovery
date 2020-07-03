@@ -39,10 +39,39 @@ namespace simple_threading_discovery
             //Process.GetCurrentProcess().ProcessorAffinity
             //= new IntPtr(1);
             //RunThreads();
-            RunGrounds();
+            // RunGrounds();
 
+            var sample = new ThreadSim(10);
+
+            var threadOne = new Thread(sample.CountNumbers);
+            threadOne.Name = "threadOne";
+            threadOne.Start();
+            threadOne.Join();
+            Console.WriteLine("---------------------------------------");
+
+            var threadTwo = new Thread(Count);
+            threadTwo.Name = "threadTwo";
+            threadTwo.Start(8);
+            threadTwo.Join();
+            Console.WriteLine("---------------------------------------");
+
+            var threadThree = new Thread(() => CountNumbers(12));
+            threadThree.Name = "ThreadThree";
+            threadThree.Start();
+            threadThree.Join();
+            Console.WriteLine("---------------------------------------");
+
+            int i = 10;
+            var threadFour = new Thread(() =>
+            sample.PrintNum(i));
+            i = 20;
+            var threadFive = new Thread(() =>
+             sample.PrintNum(i));
+
+            threadFour.Start();
+            threadFive.Start();
         }
-        
+
         static void RunGrounds()
         {
             var simpleForeground = new ThreadSamp(20);
@@ -99,5 +128,19 @@ namespace simple_threading_discovery
             Thread.Sleep(TimeSpan.FromSeconds(5));
         }
 
+        static void Count(object iterations)
+        {
+            CountNumbers((int)iterations);
+        }
+
+        private static void CountNumbers(int iterations)
+        {
+            int i = 0;
+            for (; i < iterations;)
+            {
+                Thread.Sleep(TimeSpan.FromSeconds(0.5));
+                Console.WriteLine("{0} prints {1}",Thread.CurrentThread.Name,i++);
+            }
+        }
     }
 }
