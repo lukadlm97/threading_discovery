@@ -41,6 +41,59 @@ namespace simple_threading_discovery
             //RunThreads();
             // RunGrounds();
 
+            ThreadWithLocks();
+        }
+
+        private static void ThreadWithLocks()
+        {
+            Console.WriteLine("Incorrect counter");
+
+            var c = new Counter();
+
+            var t1 = new Thread(() => TestCounter(c));
+            var t2 = new Thread(() => TestCounter(c));
+            var t3 = new Thread(() => TestCounter(c));
+
+            t1.Start();
+            t2.Start();
+            t3.Start();
+            t1.Join();
+            t2.Join();
+            t3.Join();
+
+            Console.WriteLine("Total count: {0}",c.Count);
+            Console.WriteLine("-------------------------------");
+
+            Console.WriteLine("Incorrect counter");
+
+            var c1 = new CounterWithLock();
+
+            t1 = new Thread(() => TestCounter(c1));
+            t2 = new Thread(() => TestCounter(c1));
+            t3 = new Thread(() => TestCounter(c1));
+
+            t1.Start();
+            t2.Start();
+            t3.Start();
+            t1.Join();
+            t2.Join();
+            t3.Join();
+
+            Console.WriteLine("Total count: {0}", c1.Count);
+            Console.WriteLine("-------------------------------");
+        }
+
+        static void TestCounter(CounterBase c)
+        {
+            for (int i = 0; i < 100000; i++)
+            {
+                c.Increment();
+                c.Decrement();
+            }
+        }
+
+        static void ThreadSimultany()
+        {
             var sample = new ThreadSim(10);
 
             var threadOne = new Thread(sample.CountNumbers);
