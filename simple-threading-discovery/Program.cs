@@ -41,7 +41,28 @@ namespace simple_threading_discovery
             //RunThreads();
             // RunGrounds();
 
-            ThreadWithoutLocks();
+            //ThreadWithoutLocks();
+            RunMutex();
+        }
+
+        static void RunMutex()
+        {
+            const string MutexName = "SomeNamedMutex";
+
+            using(var m = new Mutex(false, MutexName))
+            {
+                if (!m.WaitOne(TimeSpan.FromSeconds(15)))
+                {
+                    Console.WriteLine("The secound instance running!!!");
+                }
+                else
+                {
+                    Console.WriteLine("Running!!!");
+                    Console.ReadLine();
+                    m.ReleaseMutex();
+                }
+            }
+
         }
 
         private static void ThreadWithoutLocks()
