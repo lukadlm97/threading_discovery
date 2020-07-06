@@ -42,7 +42,15 @@ namespace simple_threading_discovery
             // RunGrounds();
 
             //ThreadWithoutLocks();
-            RunMutex();
+          ///  RunMutex();
+            for(int i = 0; i <= 6; i++)
+            {
+                string threadName = "Thread" + i;
+                int secoundToWait = 2 + 2 * i;
+                var t = new Thread(() =>
+                SemaphoreSample.AccessDatabase(threadName, secoundToWait));
+                t.Start();
+            }
         }
 
         static void RunMutex()
