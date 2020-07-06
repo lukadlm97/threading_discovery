@@ -42,8 +42,31 @@ namespace simple_threading_discovery
             // RunGrounds();
 
             //ThreadWithoutLocks();
-          ///  RunMutex();
-            for(int i = 0; i <= 6; i++)
+            ///  RunMutex();
+
+            AutoResetSimulation();
+        }
+
+        static void AutoResetSimulation()
+        {
+            var t = new Thread(() => AutoResetEventSync.Process(10));
+            t.Start();
+
+            Console.WriteLine("Waitning for another thread to complete work");
+            AutoResetEventSync._workerEvent.WaitOne();
+            Console.WriteLine("First operations has completed!");
+            Console.WriteLine("Performing an operation on a mainthread!");
+            Thread.Sleep(TimeSpan.FromSeconds(5));
+            AutoResetEventSync._mainEvent.Set();
+            Console.WriteLine("Now running the secound operation on a secound thread");
+            AutoResetEventSync._workerEvent.WaitOne();
+            Console.WriteLine("Secound operation completed!");
+            
+        }
+
+        static void SempahoreSimulation()
+        {
+            for (int i = 0; i <= 6; i++)
             {
                 string threadName = "Thread" + i;
                 int secoundToWait = 2 + 2 * i;
