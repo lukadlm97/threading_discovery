@@ -44,7 +44,35 @@ namespace simple_threading_discovery
             //ThreadWithoutLocks();
             ///  RunMutex();
 
-            AutoResetSimulation();
+            // AutoResetSimulation();
+            ManualSimulation();
+        }
+
+        static void ManualSimulation()
+        {
+            var t1 = new Thread(() =>
+            GatesSimulation.TravelThroughGates("Thread 1", 5));
+            var t2 = new Thread(() =>
+            GatesSimulation.TravelThroughGates("Thread 2", 6));
+            var t3 = new Thread(() =>
+            GatesSimulation.TravelThroughGates("Thread 3", 12));
+
+            t1.Start();
+            t2.Start();
+            t3.Start();
+
+            Thread.Sleep(TimeSpan.FromSeconds(6));
+            Console.WriteLine("The gates are now open!");
+            GatesSimulation._mainEvent.Set();
+            Thread.Sleep(TimeSpan.FromSeconds(2));
+            GatesSimulation._mainEvent.Reset();
+            Console.WriteLine("The gates have been closed!");
+            Thread.Sleep(TimeSpan.FromSeconds(10));
+            Console.WriteLine("The gates are now open for the secound time!");
+            GatesSimulation._mainEvent.Set();
+            Thread.Sleep(TimeSpan.FromSeconds(2));
+            Console.WriteLine("The gates have been closed!");
+            GatesSimulation._mainEvent.Reset();
         }
 
         static void AutoResetSimulation()
