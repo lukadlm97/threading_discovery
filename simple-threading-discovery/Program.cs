@@ -45,7 +45,35 @@ namespace simple_threading_discovery
             ///  RunMutex();
 
             // AutoResetSimulation();
-            ManualSimulation();
+            //   ManualSimulation();
+            //CountdownSimulation();
+           // BarrierSimulation(); 
+        }
+
+
+        static void BarrierSimulation()
+        {
+            var t1 = new Thread(() =>
+            BarrierThreads.PlayMusic("the guitarist", "play an amazing solo", 5));
+            var t2 = new Thread(() =>
+               BarrierThreads.PlayMusic("the singer", "sing his song", 3));
+
+            t1.Start();
+            t2.Start();
+        }
+
+        static void CountdownSimulation()
+        {
+            Console.WriteLine("Starting two operations.");
+            var t1 = new Thread(() =>
+            CountDownOperations.PerformOperation("Operation 1 iscompleted", 4));
+            var t2 = new Thread(() =>
+            CountDownOperations.PerformOperation("Operation 2 iscompleted", 8));
+            t1.Start();
+            t2.Start();
+            CountDownOperations._countdown.Wait();
+            Console.WriteLine("Both operations have been complted.");
+            CountDownOperations._countdown.Dispose();
         }
 
         static void ManualSimulation()
