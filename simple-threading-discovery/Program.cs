@@ -47,9 +47,104 @@ namespace simple_threading_discovery
             // AutoResetSimulation();
             //   ManualSimulation();
             //CountdownSimulation();
-           // BarrierSimulation(); 
+            // BarrierSimulation(); 
+            int a = 5;
+            object b = a;
+            a++;
+            int c = (int)b;
+            c++;
+            Console.WriteLine("{0} {1} {2}",a,b,c);
+
+            M1 delegatM = new M1(metoda);
+            delegatM = metoda;
+            delegatM += metoda1;
+            delegatM(5);
+
+            SomeClass some = new SomeClass(4, "prvi");
+            SomeClass some1 = new SomeClass(2, "drugi");
+
+            Console.WriteLine("prvi : {0} {1} {2}",some,some.a,some.b);
+            Console.WriteLine("drugi : {0} {1} {2}", some1, some1.a, some1.b);
+            
+            Swap<SomeClass>(ref some, ref some1);
+
+            Console.WriteLine("prvi : {0} {1} {2}", some, some.a, some.b);
+            Console.WriteLine("drugi : {0} {1} {2}", some1, some1.a, some1.b);
+
+            int prvi = 1;
+            int drugi = 2;
+
+            Console.WriteLine("{0} {1}",prvi,drugi);
+            Swap<int>(ref prvi,ref drugi);
+            Console.WriteLine("{0} {1}", prvi, drugi);
+
+            int treci = 1;
+            int cetvrti = 2;
+
+            Console.WriteLine("{0} {1}", treci, cetvrti);
+            Swap(treci,cetvrti);
+            Console.WriteLine("{0} {1}", treci, cetvrti);
+
         }
 
+        public static void Swap(dynamic a,dynamic b)
+        {
+            dynamic x = a;
+            a = b;
+            b = x;
+        }
+
+        public static void Swap<T>(ref T firstValue,ref T secoundValue)
+        {
+            T tempValue = firstValue;
+            firstValue = secoundValue;
+            secoundValue = tempValue;
+        }
+
+        class SomeClass
+        {
+            public int a = 0;
+            public string b = null;
+
+            public SomeClass(int b,string s)
+            {
+                a = b;
+                this.b = s;
+            }
+        }
+
+        public static void metoda(int b)
+        {
+            Console.WriteLine(b);
+        }
+        public static void metoda1(int c)
+        {
+            Console.WriteLine(c);
+        }
+        public delegate void M1(int a);
+
+        static void ThreadPoolingSimulation()
+        {
+            int threadId = 0;
+
+            ThreadPooling.RunOnThreadPool poolDelegate = ThreadPooling.Test;
+
+            var t = new Thread(() => ThreadPooling.Test(out threadId));
+            t.Start();
+            t.Join();
+
+            Console.WriteLine("Thread id:{0}",threadId);
+
+            IAsyncResult r = poolDelegate.BeginInvoke(out threadId, ThreadPooling.CallBack, "a delegate asynchronous call");
+            r.AsyncWaitHandle.WaitOne();
+
+            string result = poolDelegate.EndInvoke(out threadId, r);
+
+            Console.WriteLine("Thread pool worker thread id: {0}",threadId);
+            Console.WriteLine(result);
+
+            Thread.Sleep(TimeSpan.FromSeconds(2));
+        }
 
         static void BarrierSimulation()
         {
