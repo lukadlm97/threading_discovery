@@ -48,43 +48,63 @@ namespace simple_threading_discovery
             //   ManualSimulation();
             //CountdownSimulation();
             // BarrierSimulation(); 
-            int a = 5;
-            object b = a;
-            a++;
-            int c = (int)b;
-            c++;
-            Console.WriteLine("{0} {1} {2}",a,b,c);
+            /*   int a = 5;
+               object b = a;
+               a++;
+               int c = (int)b;
+               c++;
+               Console.WriteLine("{0} {1} {2}",a,b,c);
 
-            M1 delegatM = new M1(metoda);
-            delegatM = metoda;
-            delegatM += metoda1;
-            delegatM(5);
+               M1 delegatM = new M1(metoda);
+               delegatM = metoda;
+               delegatM += metoda1;
+               delegatM(5);
 
-            SomeClass some = new SomeClass(4, "prvi");
-            SomeClass some1 = new SomeClass(2, "drugi");
+               SomeClass some = new SomeClass(4, "prvi");
+               SomeClass some1 = new SomeClass(2, "drugi");
 
-            Console.WriteLine("prvi : {0} {1} {2}",some,some.a,some.b);
-            Console.WriteLine("drugi : {0} {1} {2}", some1, some1.a, some1.b);
-            
-            Swap<SomeClass>(ref some, ref some1);
+               Console.WriteLine("prvi : {0} {1} {2}",some,some.a,some.b);
+               Console.WriteLine("drugi : {0} {1} {2}", some1, some1.a, some1.b);
 
-            Console.WriteLine("prvi : {0} {1} {2}", some, some.a, some.b);
-            Console.WriteLine("drugi : {0} {1} {2}", some1, some1.a, some1.b);
+               Swap<SomeClass>(ref some, ref some1);
 
-            int prvi = 1;
-            int drugi = 2;
+               Console.WriteLine("prvi : {0} {1} {2}", some, some.a, some.b);
+               Console.WriteLine("drugi : {0} {1} {2}", some1, some1.a, some1.b);
 
-            Console.WriteLine("{0} {1}",prvi,drugi);
-            Swap<int>(ref prvi,ref drugi);
-            Console.WriteLine("{0} {1}", prvi, drugi);
+               int prvi = 1;
+               int drugi = 2;
 
-            int treci = 1;
-            int cetvrti = 2;
+               Console.WriteLine("{0} {1}",prvi,drugi);
+               Swap<int>(ref prvi,ref drugi);
+               Console.WriteLine("{0} {1}", prvi, drugi);
 
-            Console.WriteLine("{0} {1}", treci, cetvrti);
-            Swap(treci,cetvrti);
-            Console.WriteLine("{0} {1}", treci, cetvrti);
+               int treci = 1;
+               int cetvrti = 2;
 
+               Console.WriteLine("{0} {1}", treci, cetvrti);
+               Swap(treci,cetvrti);
+               Console.WriteLine("{0} {1}", treci, cetvrti);*/
+
+
+            VolatileThread();
+        }
+
+        public static void VolatileThread()
+        {
+            WorkerThread workerObject = new WorkerThread();
+            Thread thread = new Thread(workerObject.DoWork);
+
+            thread.Start();
+
+            Console.WriteLine("Main thread:starting worker thread...");
+
+            while (!thread.IsAlive) ;
+            Thread.Sleep(1);
+
+            workerObject.RequestStop();
+            thread.Join();
+            Console.WriteLine("Main thread: worker thread has terminated.");
+            Console.ReadKey();
         }
 
         public static void Swap(dynamic a,dynamic b)
