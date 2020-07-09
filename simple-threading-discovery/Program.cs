@@ -86,7 +86,13 @@ namespace simple_threading_discovery
                Console.WriteLine("{0} {1}", treci, cetvrti);*/
 
 
-            VolatileThread();
+            // VolatileThread();
+
+          /*  A a = new B();
+            E e = (E)a;
+            F f = (F)e;
+            E r = new F();
+            B b = (B)a;*/
         }
 
         public static void VolatileThread()
