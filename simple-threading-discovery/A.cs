@@ -6,6 +6,10 @@ namespace simple_threading_discovery
 {
     public abstract class A
     {
+        public  A(int a)
+        {
+
+        }
         int f;
     }
 }
