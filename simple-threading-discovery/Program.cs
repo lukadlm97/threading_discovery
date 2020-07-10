@@ -94,7 +94,67 @@ namespace simple_threading_discovery
               F f = (F)e;
               E r = new F();
               B b = (B)a;*/
-            ParallelTesting();
+            //  ParallelTesting();
+            // TaskDevelopingAsyn();
+
+            TaskDelayDiscovery();
+        }
+
+        private static void TaskDelayDiscovery()
+        {
+            TestingPerformance testingPerformance = new TestingPerformance();
+            testingPerformance.NameOfTesting = "TASKS";
+            testingPerformance.StartTime = DateTime.Now;
+
+            Task[] tasks = new Task[3];
+
+            tasks[0] = TaskWithDelay(4);
+            tasks[1] = TaskWithDelay(9);
+            tasks[2] = TaskWithDelay(4);
+
+            Task.WaitAll(tasks);
+
+            testingPerformance.EndTime = DateTime.Now;
+
+            Console.WriteLine(testingPerformance);
+        }
+
+        private static void TaskDevelopingAsyn()
+        {
+            DateTime startTime = DateTime.Now;
+            Console.WriteLine(@"Now time: "+startTime);
+
+
+            DateTime endTime = DateTime.Now;
+            Console.WriteLine(@"Now time: " + endTime);
+
+            TimeSpan time = endTime - startTime;
+            Console.WriteLine(@"Total time:{0}",time.TotalMilliseconds);
+        }
+
+        public static Task TaskWithDelay(int delaySecound)
+        {
+            return Task.Run(()=>
+            {
+                Console.WriteLine("Enter the task with delay:"+delaySecound);
+                Thread.Sleep(delaySecound * 1000);
+                Console.WriteLine("Task with delay:"+delaySecound+" has been finished!!!");
+            });
+        }
+
+        private async static Task DoSomeWork1()
+        {
+            Task.Delay(3000).Wait();
+        }
+
+        private async static Task DoSomeWork2()
+        {
+            Task.Delay(4000).Wait();
+        }
+
+        private async static Task DoSomeWork3()
+        {
+            Task.Delay(6000).Wait();
         }
 
         private static void ParallelTesting()
