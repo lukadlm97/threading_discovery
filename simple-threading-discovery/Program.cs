@@ -97,7 +97,9 @@ namespace simple_threading_discovery
             //  ParallelTesting();
             // TaskDevelopingAsyn();
 
-            TaskDelayDiscovery();
+           // TaskDelayDiscovery();
+
+
         }
 
         private static void TaskDelayDiscovery()
