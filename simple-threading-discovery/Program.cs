@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace simple_threading_discovery
 {
@@ -88,11 +89,67 @@ namespace simple_threading_discovery
 
             // VolatileThread();
 
-          /*  A a = new B();
-            E e = (E)a;
-            F f = (F)e;
-            E r = new F();
-            B b = (B)a;*/
+            /*  A a = new B();
+              E e = (E)a;
+              F f = (F)e;
+              E r = new F();
+              B b = (B)a;*/
+            ParallelTesting();
+        }
+
+        private static void ParallelTesting()
+        {
+            ParallelTestingFor();
+            ParallelTestingForParallel();
+        }
+
+        private static void ParallelTestingForParallel()
+        {
+            DateTime startTimeFor = DateTime.Now;
+            Console.WriteLine(@"Start time FOR PARALLEL:{0}", startTimeFor);
+
+            Parallel.For(0, 100, i =>
+              {
+                  if (i % 10 == 0)
+                      Console.WriteLine(@"{0} - {1}", i, Thread.CurrentThread.ManagedThreadId);
+                  IndependedTask();
+              });
+
+            DateTime endTimeFor = DateTime.Now;
+
+            Console.WriteLine(@"End time FOR PARALLE:{0}", endTimeFor);
+
+            TimeSpan timeFor = endTimeFor - startTimeFor;
+
+            Console.WriteLine(@"Total time FOR PARALLE: {0}", timeFor.TotalMilliseconds);
+        }
+
+        public static void ParallelTestingFor()
+        {
+            DateTime startTimeFor = DateTime.Now;
+            Console.WriteLine(@"Start time FOR:{0}",startTimeFor);
+
+            for(int i = 0; i < 100; i++)
+            {
+                if(i%10==0)
+                    Console.WriteLine(@"{0} - {1}",i,Thread.CurrentThread.ManagedThreadId);
+                IndependedTask();
+            }
+            DateTime endTimeFor = DateTime.Now;
+
+            Console.WriteLine(@"End time FOR:{0}", endTimeFor);
+
+            TimeSpan timeFor = endTimeFor - startTimeFor;
+
+            Console.WriteLine(@"Total time FOR: {0}",timeFor.TotalMilliseconds);
+
+        }
+
+        private static void IndependedTask()
+        {
+            int sum = 0;
+            for (int i = 0; i < 10000000; i++)
+                sum += i;
         }
 
         public static void VolatileThread()

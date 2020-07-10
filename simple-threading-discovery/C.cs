@@ -4,7 +4,7 @@ using System.Text;
 
 namespace simple_threading_discovery
 {
-    public class C:A
+    public class C 
     {
     }
 }
