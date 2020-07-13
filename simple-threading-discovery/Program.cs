@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
@@ -99,7 +101,108 @@ namespace simple_threading_discovery
 
             // TaskDelayDiscovery();
 
-           
+            // IEnumerable enumerable = null;
+
+          //  IntroductionToIndexers();
+        }
+
+        static void WorkingWithArray()
+        {
+            ArrayList arrayList = new ArrayList
+            {
+                new Team
+                {
+                    Name = "Inter",
+                    TeamId=1
+                },
+                new Team
+                {
+                    Name = "Milan",
+                    TeamId=1
+                },
+                new Team
+                {
+                    Name = "Juve",
+                    TeamId=1
+                },
+            };
+            Team team = (Team)arrayList[0];
+            
+
+            List<Team> teams = new List<Team>
+            {
+                  new Team
+                {
+                    Name = "Inter",
+                    TeamId=1
+                },
+                new Team
+                {
+                    Name = "Milan",
+                    TeamId=1
+                },
+                new Team
+                {
+                    Name = "Juve",
+                    TeamId=1
+                },
+            };
+            
+            foreach(Team t in teams)
+            {
+
+            }
+            
+
+        }
+
+        public partial class Class1
+        {
+            int a;
+            public void SomeMethod()
+            {
+                
+            }
+
+        }
+
+         partial class Class1:SomeArray
+        {
+            int b;
+        }
+
+        static void IntroductionToIndexers()
+        {
+            SomeArray array = new SomeArray();
+            array[2] = -10;
+            array[6] = 9;
+
+            Console.WriteLine(array[2]);
+            Console.WriteLine(array[6]);
+        }
+
+        public class SomeArray
+        {
+            public int[] arrayOfInts = new int[100];
+            public int this[int index]
+            {
+                get
+                {
+                    return arrayOfInts[index];
+                }
+                set
+                {
+                    if (index < 0 || index > arrayOfInts.Length)
+                        throw new IndexOutOfRangeException();
+                    arrayOfInts[index] = value;
+                }
+            }
+        }
+
+        class Team
+        {
+            public string Name { get; set; }
+            public int TeamId { get; set; }
         }
 
         static void StringPassByValue()
