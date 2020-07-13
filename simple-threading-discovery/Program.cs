@@ -97,9 +97,17 @@ namespace simple_threading_discovery
             //  ParallelTesting();
             // TaskDevelopingAsyn();
 
-           // TaskDelayDiscovery();
+            // TaskDelayDiscovery();
 
+           
+        }
 
+        static void StringPassByValue()
+        {
+            string s = "original";
+            Console.WriteLine(s);
+            SomeClass1.PassStringByValue(s);
+            Console.WriteLine(s);
         }
 
         private static void TaskDelayDiscovery()
